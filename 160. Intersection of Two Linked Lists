@@ -20,12 +20,15 @@ You may assume there are no cycles anywhere in the entire linked structure.
 Your code should preferably run in O(n) time and use only O(1) memory.
 '''
 
+### 找到相等的node
+
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
+# 先截成相等长度再找相等的node
 class Solution(object):
     def getLen(self, head):
         if head is None: 
@@ -53,3 +56,26 @@ class Solution(object):
             headA = headA.next
             headB = headB.next            
         return headA
+
+
+# 思路二：用p遍历A,B, 用q遍历B,A，如果intersect,则在某点一定相遇
+class Solution(object):    
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        if not headA or not headB:
+            return None
+        
+        p, q = headA, headB        
+        while p and q and p != q:
+            p = p.next
+            q = q.next
+            if p == q:
+                return p
+            if p is None:
+                p = headB
+            if q is None:
+                q = headA
+        return p  # if no intersect, both will arrive at None so return p is to return None
